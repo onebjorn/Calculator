@@ -5,15 +5,15 @@
 
 int errors;
 
-void test(const char* input, double expected) {
+void test(const char * input, double expected) {
     try
     {
         Parser p(input);
-        auto result = eval(p.parse());
+        auto result = p.solve(p.parse());
         if (result == expected) return;
         cout << input << " = " << expected << " : error, got " << result << '\n';
     }
-    catch (exception& e)
+    catch (exception & e)
     {
         cout << input << " : exception: " << e.what() << '\n';
     }
@@ -22,18 +22,18 @@ void test(const char* input, double expected) {
 
 int main() {
 
-    char* s = "-10.23 + (8 * 2.5) - (3 / 1,5)";
+    char * s = "-10.23 + (8 * 2.5) - (3 / 1,5)";
     double res;
     //std::cin >> s;
     Parser p(s);
-    res = eval(p.parse());
+    res = p.solve(p.parse());
     cout << setprecision(3) << res << endl;
 
 
     test("sdf", 0);
     test("0,5 + 0,5", 1.0);
     test("0,1 * 1", 0.1);
-    test("0.8 / 0.8", 1.0);
+    test("0.8 / 0", INFINITY);
     test("1", 1);
     test("9", 9);
     test("10", 10);
@@ -60,5 +60,5 @@ int main() {
     test("2*3+4*5", 26);
     test("100+2*10+3", 123);
     test("5 * 4 + 3 * 2 + 1", 27);
-    std::cout << "Done with " << errors << " errors.\n";
+    cout << "Done with " << errors << " errors.\n";
 }
