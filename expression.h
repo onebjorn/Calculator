@@ -8,30 +8,22 @@ using namespace std;
 class Expression
 {
 public:
+// Конструктор для чисел
+    Expression(string token): token(token) {}
+// Конструктор унарных операций(+a, -a, ---a)
+    Expression(string token, Expression a): token(token), args{ a } {}
+// Конструктор бинарных операций(a + b, a * b..)
+    Expression(string token, Expression a, Expression b): token(token), args{ a, b } {}
 
-    Expression(string token)  // Конструктор для чисел
-        : token(token)
-    {}
+    int getSize() const { return args.size(); } //
 
-    Expression(string token, Expression a) // Конструктор унарных операций,
-        : token(token)
-        , args{ a }
-    {}
+    string const & getToken() const { return token; } //
 
-    Expression(string token, Expression a, Expression b) // Конструктор бинарных операций,
-        : token(token)
-        , args{ a, b }
-    {}
+    vector<Expression> const & getArgs() const { return args; } //
 
-    int getSize() const
-    {
-        return args.size();
-    }
+    ~Expression() = default;
 
-    string const & getToken() { return token; }
-
-    vector<Expression> const & getArgs() { return args; }
-
+private:
     string token;
     vector<Expression> args;
 };
