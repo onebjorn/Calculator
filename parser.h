@@ -13,6 +13,7 @@ public:
     Expression parse() { return parse_binary_expression(0); }
 
 private:
+
     string parse_token()
     {
         while (isspace(*input)) ++input; // Пропуск пробелов в вводе
@@ -34,7 +35,7 @@ private:
         static const string tokens[] = { "+", "-", "*", "/", "(", ")" };
         for(auto& t : tokens)
         {
-            if (std::strncmp(input, t.c_str(), t.size()) == 0)
+            if (strncmp(input, t.c_str(), t.size()) == 0) //Эта функция сравнивает символы двух строк
             {
                 input += t.size();
                 return t;
@@ -47,11 +48,13 @@ private:
     Expression parse_simple_expression()
     {
         auto token = parse_token();
-        if (token.empty()) throw std::runtime_error("Invalid input");
 
-        if (token == "(") {
+        if (token.empty()) throw runtime_error("некорректный ввод");
+
+        if (token == "(")
+        {
             auto result = parse();
-            if (parse_token() != ")") throw std::runtime_error("Expected ')'");
+            if (parse_token() != ")") throw runtime_error("Expected ')'");
             return result;
         }
 
@@ -79,6 +82,7 @@ private:
     }
 
     const char* input;
+
 };
 
 

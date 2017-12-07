@@ -1,47 +1,56 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
 struct Expression
 {
-    Expression(string token) : token(token) {}
-    Expression(string token, Expression a) : token(token), args{ a } {}
-    Expression(string token, Expression a, Expression b) : token(token), args{ a, b } {}
+    Expression(string token)  // Конструктор для чисел
+        : token(token)
+    {}
+
+    Expression(string token, Expression a) // Конструктор унарных операций,
+        : token(token)
+        , args{ a }
+    {}
+
+    Expression(string token, Expression a, Expression b) // Конструктор бинарных операций,
+        : token(token)
+        , args{ a, b }
+    {}
 
     string token;
     vector<Expression> args;
 };
 
 
-double eval(const Expression& e)
+double eval(const Expression & e)
 {
     switch (e.args.size()) {
-    case 2:
+    case 2: // бинарных операций
     {
-        auto a = eval(e.args[0]);
-        auto b = eval(e.args[1]);
+        double a = eval(e.args[0]);
+        double b = eval(e.args[1]);
         if (e.token == "+") return a + b;
         if (e.token == "-") return a - b;
         if (e.token == "*") return a * b;
         if (e.token == "/") return a / b;
-        throw runtime_error("Unknown operator"); //ошибка выполнения с неизвестным символом
     }
 
-    case 1:
+    case 1: // унарных операций
     {
-        auto a = eval(e.args[0]);
+        double a = eval(e.args[0]);
         if (e.token == "+") return +a;
         if (e.token == "-") return -a;
-        throw runtime_error("Unknown operator"); // ошибка выполнения с неизвестным символом
     }
 
-    case 0:
-        return strtod(e.token.c_str(), nullptr);
+    case 0: // чисел
+        return strtod(e.token.c_str(), nullptr); // Функция strtod преобразовывает строку string в double.
     }
 
-    throw runtime_error("Unknown expression type"); // ошибка выполнения с неизвестным символом
+    throw runtime_error("некорректный ввод, строка содержит недопустимое выражение");
 }
 
 

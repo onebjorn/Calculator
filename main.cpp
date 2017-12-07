@@ -6,14 +6,16 @@
 int errors;
 
 void test(const char* input, double expected) {
-    try {
+    try
+    {
         Parser p(input);
         auto result = eval(p.parse());
         if (result == expected) return;
-        std::cout << input << " = " << expected << " : error, got " << result << '\n';
+        cout << input << " = " << expected << " : error, got " << result << '\n';
     }
-    catch (std::exception& e) {
-        std::cout << input << " : exception: " << e.what() << '\n';
+    catch (exception& e)
+    {
+        cout << input << " : exception: " << e.what() << '\n';
     }
     ++errors;
 }
@@ -28,7 +30,7 @@ int main() {
     cout << setprecision(3) << res << endl;
 
 
-    test("0", 0);
+    test("sdf", 0);
     test("0,5 + 0,5", 1.0);
     test("0,1 * 1", 0.1);
     test("0.8 / 0.8", 1.0);
@@ -38,7 +40,7 @@ int main() {
     test("+1", 1);
     test("-1", -1);
     test("(1)", 1);
-    test("(-1)", -1);
+    test("(asd1 asd)", -1);
     test("1+20", 21);
     test("1 + 20", 21);
     test("1+20+300", 321);
