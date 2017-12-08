@@ -8,12 +8,11 @@ using namespace std;
 class Expression
 {
 public:
-// Конструктор для чисел
-    Expression(string token): token(token) {}
-// Конструктор унарных операций(+a, -a, ---a)
-    Expression(string token, Expression a): token(token), args{ a } {}
-// Конструктор бинарных операций(a + b, a * b..)
-    Expression(string token, Expression a, Expression b): token(token), args{ a, b } {}
+    Expression(string token): token(token) {} // Конструктор для чисел
+
+    Expression(string token, Expression a): token(token), args{ a } {} // Конструктор унарных операций(+a, -a, ---a)
+
+    Expression(string token, Expression a, Expression b): token(token), args{ a, b } {} // Конструктор бинарных операций(a + b, a * b..)
 
     int getSize() const { return args.size(); } //
 

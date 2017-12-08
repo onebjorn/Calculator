@@ -18,9 +18,9 @@ include_directories(3party/googletest/googletest/include ${SOURCE_ROOT})
 # Set up testing project.
 set(TESTS_SOURCE_ROOT tests)
 aux_source_directory(${TESTS_SOURCE_ROOT} TEST_SRC_FILES)
-set(TEST_SRC_FILES ${SRC_LIST} ${TEST_SRC_FILES})
-list(REMOVE_ITEM TEST_SRC_FILES src/main.cpp)
-add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES} ${QT_WRAPPED_TEST_SRC})
+set(TEST_SRC_FILES ${PROJECT_NAME} ${TEST_SRC_FILES})
+list(REMOVE_ITEM TEST_SRC_FILES main.cpp)
+add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES})
 # Link gtest and gtest_main libraries.
 target_link_libraries(${PROJECT_TEST_NAME} gtest gtest_main)
 # Finish tests setting up.

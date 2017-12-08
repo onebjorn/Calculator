@@ -8,7 +8,7 @@
 class Parser
 {
 public:
-    Parser(const char* input) : input(input) {}
+    Parser(const char * input) : input(input) {}
 
     Expression parse() { return parseBinaryExpression(0); }
 
@@ -23,7 +23,8 @@ public:
             if (expr.getToken() == "+") return a + b;
             if (expr.getToken() == "-") return a - b;
             if (expr.getToken() == "*") return a * b;
-            if (expr.getToken() == "/") return a / b;
+            if (expr.getToken() == "/" && b != 0) return a / b;
+            else throw runtime_error("Division by zero!");
         }
 
         case 1: // унарных операций
@@ -126,4 +127,8 @@ private:
     const char * input;
 };
 
-
+double Calculate(const char * input)
+{
+    Parser parser(input);
+    return parser.solve(parser.parse());
+}
