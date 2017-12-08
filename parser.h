@@ -37,7 +37,7 @@ public:
         case 0: return strtod(expr.getToken().c_str(), nullptr); // Функция strtod преобразовывает строку string в double.
         }
 
-        throw runtime_error("некорректный ввод, строка содержит недопустимое выражение");
+        throw runtime_error("Некорректный ввод, строка содержит недопустимое выражение");
     }
 
     ~Parser() = default;
@@ -81,12 +81,12 @@ private:
     {
         auto token = parseToken();
 
-        if (token.empty()) throw runtime_error("некорректный ввод");
+        if (token.empty()) throw runtime_error("Некорректный ввод");
 
         if (token == "(")
         {
             auto result = parse();
-            if (parseToken() != ")") throw runtime_error("Expected ')'");
+            if (parseToken() != ")") throw runtime_error("Ожидается ')'");
             return result;
         }
 

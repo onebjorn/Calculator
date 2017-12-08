@@ -36,8 +36,8 @@ TEST(Calc_test, test_construction)
 
 TEST(Calc_test, test_parser)
 {
-    char * s1 = "1 + 2";
-    Parser p1(s1);
+    string s1 = "1 + 2";
+    Parser p1(s1.c_str());
 
     EXPECT_EQ(p1.solve(p1.parse()), 3);
 }
