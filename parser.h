@@ -16,7 +16,7 @@ public:
     {
         switch (expr.getSize())
         {
-        case 2: // бинарных операций
+        case 2: // Бинарная операция
         {
             double a = solve(expr.getArgs()[0]);
             double b = solve(expr.getArgs()[1]);
@@ -27,14 +27,14 @@ public:
             else throw runtime_error("Division by zero!");
         }
 
-        case 1: // унарных операций
+        case 1: // Унарная операция
         {
             double a = solve(expr.getArgs()[0]);
             if (expr.getToken() == "+") return +a;
             if (expr.getToken() == "-") return -a;
         }
 
-        case 0: return strtod(expr.getToken().c_str(), nullptr); // Функция strtod преобразовывает строку string в double.
+        case 0: return strtod(expr.getToken().c_str(), nullptr); // Возвращаем число
         }
 
         throw runtime_error("Некорректный ввод, строка содержит недопустимое выражение");
@@ -44,11 +44,11 @@ public:
 
 private:
 
-    string parseToken()
+    string parseToken() // Возвращает токен
     {
         while (isspace(*input)) ++input; // Пропуск пробелов в вводе
 
-        if (isdigit(*input))
+        if (isdigit(*input)) // Если встречается цифра, то пытаемся парсить число полностью
         {
             string number;
             while (isdigit(*input) || *input == '.' || *input == ',')
@@ -63,25 +63,25 @@ private:
             return number;
         }
 
-        const string tokens[] = { "+", "-", "*", "/", "(", ")" };
+        const string tokens[] = { "+", "-", "*", "/", "(", ")" }; // Список допустимых токенов
 
         for(auto & t : tokens)
         {
-            if (strncmp(input, t.c_str(), t.size()) == 0) //Эта функция сравнивает символы двух строк
+            if (strncmp(input, t.c_str(), t.size()) == 0) // strncmp сравнивает символы двух строк
             {
                 input += t.size();
                 return t;
             }
         }
 
-        return "";
+        return ""; // Возвращаем пустой токен, если не распознали
     }
 
     Expression parseSimpleExpression()
     {
         auto token = parseToken();
 
-        if (token.empty()) throw runtime_error("Некорректный ввод");
+        if (token.empty()) throw runtime_error("Некорректный ввод"); // Если токен неизвестен
 
         if (token == "(")
         {
@@ -98,13 +98,14 @@ private:
 
     Expression parseBinaryExpression(int minPriority)
     {
-        auto leftExpr = parseSimpleExpression();
+        auto leftExpr = parseSimpleExpression();  // Либо простое выражение, либо бинарное выражение, полученное на предыдущей итерации
 
-        for (;;)
+        while(true) // Рекурсивным вызовом парсера получается выражение справа
         {
             auto op = parseToken();
             int priority = getPriority(op);
-            if (priority <= minPriority)
+
+            if (priority <= minPriority) // Выходим из цикла если ее приоритет слишком низок
             {
                 input -= op.size();
                 return leftExpr;
@@ -115,7 +116,7 @@ private:
         }
     }
 
-    int getPriority(const string & operation)
+    int getPriority(const string & operation) // Возвращает приоритет бинарной операции
     {
         if (operation == "+") return 1;
         if (operation == "-") return 1;
@@ -127,7 +128,9 @@ private:
     const char * input;
 };
 
-double Calculate(const char * input)
+
+
+double Calculate(const char * input) // Функция для непосредственного вычисления подаваемой строки
 {
     Parser parser(input);
     return parser.solve(parser.parse());
