@@ -5,7 +5,7 @@
 
 int main()
 {
-    char * s = "-10.23 + (8 * 2.5) - (3 / 1,5)";
-    //std::cin >> s;
-    cout << setprecision(3) << Calculate(s) << endl;
+    string input;
+    getline(cin, input);
+    cout << setprecision(2) << Calculate(input.c_str()) << endl;
 }
