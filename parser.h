@@ -5,6 +5,8 @@
 #include <cstring>
 #include <stdexcept>
 
+class InvalidSymbol : public std::exception {};
+
 class Parser
 {
 public:
@@ -42,8 +44,6 @@ public:
 
     ~Parser() = default;
 
-private:
-
     string parseToken() // Возвращает токен
     {
         while (isspace(*input)) ++input; // Пропуск пробелов в вводе
@@ -74,12 +74,17 @@ private:
             }
         }
 
+        err_input.push_back(*input++);
+
         return ""; // Возвращаем пустой токен, если не распознали
+
     }
 
     Expression parseSimpleExpression()
     {
         auto token = parseToken();
+
+        if(err_input.size() != 0) throw invalid_argument("Некорректный ввод"); // Если токен неизвестен
 
         if (token.empty()) throw runtime_error("Некорректный ввод"); // Если токен неизвестен
 
@@ -126,6 +131,7 @@ private:
     }
 
     const char * input;
+    string err_input;
 };
 
 
